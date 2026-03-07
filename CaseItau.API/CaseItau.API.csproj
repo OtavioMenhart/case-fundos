@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CaseItau.Application\CaseItau.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="dbCaseItau.s3db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
