@@ -24,5 +24,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<Fundo>()
                     .HasIndex(f => f.Cnpj)
                     .IsUnique();
+
+        modelBuilder.Entity<TipoFundo>().HasData(
+            new TipoFundo { Codigo = 1, Nome = "RENDA FIXA" },
+            new TipoFundo { Codigo = 2, Nome = "ACOES" },
+            new TipoFundo { Codigo = 3, Nome = "MULTI MERCADO" }
+        );
     }
 }
