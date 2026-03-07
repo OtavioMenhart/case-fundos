@@ -1,0 +1,45 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CaseItau.Domain.Entities;
+
+/// <summary>
+/// Represents an investment fund.
+/// </summary>
+[Table("FUNDO")]
+public class Fundo
+{
+    /// <summary>Gets or sets the unique identifier of the fund.</summary>
+    [Key]
+    [Column("ID")]
+    public int Id { get; set; }
+
+    /// <summary>Gets or sets the unique code of the fund.</summary>
+    [Column("CODIGO")]
+    [MaxLength(20)]
+    public string Codigo { get; set; } = string.Empty;
+
+    /// <summary>Gets or sets the name of the fund.</summary>
+    [Column("NOME")]
+    [MaxLength(100)]
+    [Required]
+    public string Nome { get; set; } = string.Empty;
+
+    /// <summary>Gets or sets the CNPJ of the fund.</summary>
+    [Column("CNPJ")]
+    [MaxLength(14)]
+    [Required]
+    public string Cnpj { get; set; } = string.Empty;
+
+    /// <summary>Gets or sets the fund type code (foreign key).</summary>
+    [Column("CODIGO_TIPO")]
+    public int CodigoTipo { get; set; }
+
+    /// <summary>Gets or sets the net asset value of the fund.</summary>
+    [Column("PATRIMONIO", TypeName = "decimal(18,2)")]
+    public decimal? Patrimonio { get; set; }
+
+    /// <summary>Gets or sets the fund type navigation property.</summary>
+    [ForeignKey(nameof(CodigoTipo))]
+    public TipoFundo TipoFundo { get; set; } = null!;
+}

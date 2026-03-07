@@ -1,0 +1,28 @@
+﻿using CaseItau.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace CaseItau.Infra.Data;
+
+/// <summary>
+/// Entity Framework Core database context for the CaseItau application.
+/// </summary>
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+{
+    /// <summary>Gets or sets the funds dataset.</summary>
+    public DbSet<Fundo> Fundos { get; set; }
+
+    /// <summary>Gets or sets the fund types dataset.</summary>
+    public DbSet<TipoFundo> TiposFundo { get; set; }
+
+    /// <inheritdoc/>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Fundo>()
+                    .HasIndex(f => f.Codigo)
+                    .IsUnique();
+
+        modelBuilder.Entity<Fundo>()
+                    .HasIndex(f => f.Cnpj)
+                    .IsUnique();
+    }
+}
