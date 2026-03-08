@@ -19,6 +19,10 @@ public class FundoRepository : BaseRepository<Fundo>, IFundoRepository
     }
 
     /// <inheritdoc/>
+    public override async Task<IEnumerable<Fundo>> GetAllAsync(CancellationToken cancellationToken)
+        => await _dataSet.Include(f => f.TipoFundo).ToListAsync(cancellationToken);
+
+    /// <inheritdoc/>
     public async Task<Fundo?> GetByCodigoAsync(string codigo, CancellationToken cancellationToken)
         => await _dataSet.Include(f => f.TipoFundo).SingleOrDefaultAsync(f => f.Codigo == codigo, cancellationToken);
 
