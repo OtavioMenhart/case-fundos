@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IFundoService, FundoService>();
         services.AddScoped<ITipoFundoCacheService, TipoFundoCacheService>();
         services.AddScoped<IValidator<CreateFundoDto>, CreateFundoDtoValidator>();
+        services.AddScoped<IValidator<UpdateFundoDto>, UpdateFundoDtoValidator>();
         return services;
     }
 }

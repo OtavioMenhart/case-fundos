@@ -51,6 +51,9 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
         var fundo = await _repository.GetByCodigoAsync(codigo);
         if (fundo is null) return false;
 
+        if (!await _tipoFundoCacheService.ExistsAsync(dto.CodigoTipo))
+            throw new DomainException($"CodigoTipo '{dto.CodigoTipo}' does not exist.");
+
         fundo.Nome = dto.Nome;
         fundo.Cnpj = dto.Cnpj;
         fundo.CodigoTipo = dto.CodigoTipo;

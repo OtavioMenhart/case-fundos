@@ -13,9 +13,9 @@ public class UpdateFundoDto
 
     /// <summary>Gets or sets the CNPJ of the fund.</summary>
     [Required]
-    [MaxLength(14)]
     public string Cnpj { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the type code of the fund.</summary>
+    [Required]
     public int CodigoTipo { get; set; }
 }

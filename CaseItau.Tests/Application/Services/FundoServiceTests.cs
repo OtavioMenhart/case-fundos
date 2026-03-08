@@ -99,6 +99,7 @@ public class FundoServiceTests
         var fundo = new Fundo { Codigo = "ITAUTESTE01", Nome = "Antigo", Cnpj = "00.000.000/0001-00", CodigoTipo = 1, TipoFundo = new TipoFundo { Codigo = 1, Nome = "Renda Fixa" } };
         var dto = new UpdateFundoDto { Nome = "Novo Nome", Cnpj = "11.111.111/0001-11", CodigoTipo = 2 };
         _repositoryMock.Setup(r => r.GetByCodigoAsync("ITAUTESTE01")).ReturnsAsync(fundo);
+        _tipoFundoCacheServiceMock.Setup(c => c.ExistsAsync(2)).ReturnsAsync(true);
 
         // Act
         var result = await _service.UpdateAsync("ITAUTESTE01", dto);
@@ -106,6 +107,20 @@ public class FundoServiceTests
         // Assert
         Assert.True(result);
         _repositoryMock.Verify(r => r.UpdateAsync(It.Is<Fundo>(f => f.Nome == "Novo Nome")), Times.Once);
+    }
+
+    [Fact]
+    public async Task UpdateAsync_WhenCodigoTipoDoesNotExist_ThrowsDomainException()
+    {
+        // Arrange
+        var fundo = new Fundo { Codigo = "ITAUTESTE01", Nome = "Antigo", Cnpj = "00.000.000/0001-00", CodigoTipo = 1, TipoFundo = new TipoFundo { Codigo = 1, Nome = "Renda Fixa" } };
+        var dto = new UpdateFundoDto { Nome = "Novo Nome", Cnpj = "11.111.111/0001-11", CodigoTipo = 99 };
+        _repositoryMock.Setup(r => r.GetByCodigoAsync("ITAUTESTE01")).ReturnsAsync(fundo);
+        _tipoFundoCacheServiceMock.Setup(c => c.ExistsAsync(99)).ReturnsAsync(false);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<DomainException>(() => _service.UpdateAsync("ITAUTESTE01", dto));
+        _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Fundo>()), Times.Never);
     }
 
     [Fact]
