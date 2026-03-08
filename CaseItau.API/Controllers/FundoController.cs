@@ -14,6 +14,7 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<FundoDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get()
     {
         var fundos = await _fundoService.GetAllAsync();
@@ -28,6 +29,7 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [HttpGet("{codigo}")]
     [ProducesResponseType(typeof(FundoDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(string codigo)
     {
         var fundo = await _fundoService.GetByCodigoAsync(codigo);
@@ -37,6 +39,7 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     // POST: api/Fundo
     [HttpPost]
     [ProducesResponseType(typeof(FundoDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post([FromBody] CreateFundoDto dto)
     {
         await _fundoService.CreateAsync(dto);
@@ -47,6 +50,7 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [HttpPut("{codigo}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Put(string codigo, [FromBody] UpdateFundoDto dto)
     {
         var updated = await _fundoService.UpdateAsync(codigo, dto);
@@ -57,6 +61,7 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [HttpDelete("{codigo}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(string codigo)
     {
         var deleted = await _fundoService.DeleteAsync(codigo);
@@ -67,6 +72,7 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [HttpPut("{codigo}/patrimonio")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> MovimentarPatrimonio(string codigo, [FromBody] decimal valor)
     {
         var updated = await _fundoService.MovimentarPatrimonioAsync(codigo, valor);

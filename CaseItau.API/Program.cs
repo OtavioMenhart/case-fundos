@@ -1,9 +1,13 @@
-﻿using CaseItau.Application.Extensions;
+﻿using CaseItau.API.Filters;
+using CaseItau.Application.Extensions;
 using CaseItau.Infra.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<GlobalExceptionFilter>();
+});
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
