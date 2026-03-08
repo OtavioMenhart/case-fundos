@@ -16,10 +16,11 @@ public class CreateFundoDto
     public string Nome { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the CNPJ of the fund.</summary>
-    [Required]
-    [MaxLength(14)]
     public string Cnpj { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the type code of the fund.</summary>
     public int CodigoTipo { get; set; }
+
+    /// <summary>Gets or sets the initial net asset value of the fund.</summary>
+    public decimal? Patrimonio { get; set; }
 }

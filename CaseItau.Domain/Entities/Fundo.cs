@@ -17,6 +17,7 @@ public class Fundo
     /// <summary>Gets or sets the unique code of the fund.</summary>
     [Column("CODIGO")]
     [MaxLength(20)]
+    [Required]
     public string Codigo { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the name of the fund.</summary>
@@ -33,6 +34,7 @@ public class Fundo
 
     /// <summary>Gets or sets the fund type code (foreign key).</summary>
     [Column("CODIGO_TIPO")]
+    [Required]
     public int CodigoTipo { get; set; }
 
     /// <summary>Gets or sets the net asset value of the fund.</summary>

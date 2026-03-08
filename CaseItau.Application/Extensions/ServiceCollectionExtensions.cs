@@ -1,5 +1,8 @@
-﻿using CaseItau.Application.Interfaces;
+﻿using CaseItau.Application.DTOs;
+using CaseItau.Application.Interfaces;
 using CaseItau.Application.Services;
+using CaseItau.Application.Validators;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CaseItau.Application.Extensions;
@@ -16,7 +19,10 @@ public static class ServiceCollectionExtensions
     /// <returns>The same <see cref="IServiceCollection"/> for chaining.</returns>
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.AddMemoryCache();
         services.AddScoped<IFundoService, FundoService>();
+        services.AddScoped<ITipoFundoCacheService, TipoFundoCacheService>();
+        services.AddScoped<IValidator<CreateFundoDto>, CreateFundoDtoValidator>();
         return services;
     }
 }

@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IFundoRepository, FundoRepository>();
+        services.AddScoped<ITipoFundoRepository, TipoFundoRepository>();
 
         return services;
     }

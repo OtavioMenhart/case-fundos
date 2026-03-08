@@ -1,6 +1,7 @@
 ﻿using CaseItau.Application.DTOs;
 using CaseItau.Application.Interfaces;
 using CaseItau.Domain.Entities;
+using CaseItau.Domain.Exceptions;
 using CaseItau.Domain.Interfaces;
 
 namespace CaseItau.Application.Services;
@@ -8,9 +9,10 @@ namespace CaseItau.Application.Services;
 /// <summary>
 /// Implements use-case logic for investment funds.
 /// </summary>
-public class FundoService(IFundoRepository repository) : IFundoService
+public class FundoService(IFundoRepository repository, ITipoFundoCacheService tipoFundoCacheService) : IFundoService
 {
     private readonly IFundoRepository _repository = repository;
+    private readonly ITipoFundoCacheService _tipoFundoCacheService = tipoFundoCacheService;
 
     /// <inheritdoc/>
     public async Task<IEnumerable<FundoDto>> GetAllAsync()
@@ -29,12 +31,16 @@ public class FundoService(IFundoRepository repository) : IFundoService
     /// <inheritdoc/>
     public async Task CreateAsync(CreateFundoDto dto)
     {
+        if (!await _tipoFundoCacheService.ExistsAsync(dto.CodigoTipo))
+            throw new DomainException($"CodigoTipo '{dto.CodigoTipo}' does not exist.");
+
         var fundo = new Fundo
         {
             Codigo = dto.Codigo,
             Nome = dto.Nome,
             Cnpj = dto.Cnpj,
-            CodigoTipo = dto.CodigoTipo
+            CodigoTipo = dto.CodigoTipo,
+            Patrimonio = dto.Patrimonio
         };
         await _repository.AddAsync(fundo);
     }

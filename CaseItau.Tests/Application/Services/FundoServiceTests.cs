@@ -1,6 +1,8 @@
 ﻿using CaseItau.Application.DTOs;
+using CaseItau.Application.Interfaces;
 using CaseItau.Application.Services;
 using CaseItau.Domain.Entities;
+using CaseItau.Domain.Exceptions;
 using CaseItau.Domain.Interfaces;
 using Moq;
 
@@ -9,11 +11,12 @@ namespace CaseItau.Tests.Application.Services;
 public class FundoServiceTests
 {
     private readonly Mock<IFundoRepository> _repositoryMock = new();
+    private readonly Mock<ITipoFundoCacheService> _tipoFundoCacheServiceMock = new();
     private readonly FundoService _service;
 
     public FundoServiceTests()
     {
-        _service = new FundoService(_repositoryMock.Object);
+        _service = new FundoService(_repositoryMock.Object, _tipoFundoCacheServiceMock.Object);
     }
 
     [Fact]
@@ -64,16 +67,29 @@ public class FundoServiceTests
     }
 
     [Fact]
-    public async Task CreateAsync_CallsRepositoryAddAsync()
+    public async Task CreateAsync_WhenCodigoTipoExists_CallsRepositoryAddAsync()
     {
         // Arrange
         var dto = new CreateFundoDto { Codigo = "ITAUTESTE01", Nome = "Fundo Teste", Cnpj = "00.000.000/0001-00", CodigoTipo = 1 };
+        _tipoFundoCacheServiceMock.Setup(c => c.ExistsAsync(1)).ReturnsAsync(true);
 
         // Act
         await _service.CreateAsync(dto);
 
         // Assert
         _repositoryMock.Verify(r => r.AddAsync(It.Is<Fundo>(f => f.Codigo == "ITAUTESTE01")), Times.Once);
+    }
+
+    [Fact]
+    public async Task CreateAsync_WhenCodigoTipoDoesNotExist_ThrowsDomainException()
+    {
+        // Arrange
+        var dto = new CreateFundoDto { Codigo = "ITAUTESTE01", Nome = "Fundo Teste", Cnpj = "00.000.000/0001-00", CodigoTipo = 99 };
+        _tipoFundoCacheServiceMock.Setup(c => c.ExistsAsync(99)).ReturnsAsync(false);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<DomainException>(() => _service.CreateAsync(dto));
+        _repositoryMock.Verify(r => r.AddAsync(It.IsAny<Fundo>()), Times.Never);
     }
 
     [Fact]

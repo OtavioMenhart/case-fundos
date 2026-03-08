@@ -1,5 +1,6 @@
 ﻿using CaseItau.API.Filters;
 using CaseItau.Application.Extensions;
+using FluentValidation.AspNetCore;
 using CaseItau.Infra.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<GlobalExceptionFilter>();
 });
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 

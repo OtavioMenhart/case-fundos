@@ -39,6 +39,8 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     // POST: api/Fundo
     [HttpPost]
     [ProducesResponseType(typeof(FundoDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post([FromBody] CreateFundoDto dto)
     {
