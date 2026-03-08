@@ -73,12 +73,14 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
     }
 
     /// <inheritdoc/>
-    public async Task<bool> MovimentarPatrimonioAsync(string codigo, decimal valor)
+    public async Task<bool> UpdateFundAssetsAsync(string codigo, decimal valor)
     {
         var fundo = await _repository.GetByCodigoAsync(codigo);
         if (fundo is null) return false;
 
-        await _repository.MovimentarPatrimonioAsync(fundo, valor);
+        if (valor < 0) throw new DomainException("Valor must be non-negative.");
+
+        await _repository.UpdateFundAssetsAsync(fundo, valor);
         return true;
     }
 

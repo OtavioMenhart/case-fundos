@@ -41,5 +41,5 @@ public interface IFundoService
     /// <param name="codigo">The code of the fund to update.</param>
     /// <param name="valor">The amount to add (can be negative).</param>
     /// <returns><c>true</c> if updated; <c>false</c> if not found.</returns>
-    Task<bool> MovimentarPatrimonioAsync(string codigo, decimal valor);
+    Task<bool> UpdateFundAssetsAsync(string codigo, decimal valor);
 }

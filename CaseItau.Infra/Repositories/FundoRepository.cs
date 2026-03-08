@@ -42,9 +42,9 @@ public class FundoRepository(AppDbContext context) : IFundoRepository
     }
 
     /// <inheritdoc/>
-    public async Task MovimentarPatrimonioAsync(Fundo fundo, decimal valor)
+    public async Task UpdateFundAssetsAsync(Fundo fundo, decimal valor)
     {
-        fundo.Patrimonio = (fundo.Patrimonio ?? 0) + valor;
+        fundo.Patrimonio = valor;
         _context.Fundos.Update(fundo);
         await _context.SaveChangesAsync();
     }

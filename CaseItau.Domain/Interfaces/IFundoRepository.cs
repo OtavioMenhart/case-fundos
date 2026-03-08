@@ -29,5 +29,5 @@ public interface IFundoRepository
     /// <summary>Adds the given amount to the fund's patrimônio.</summary>
     /// <param name="fundo">The fund to update.</param>
     /// <param name="valor">The amount to add (can be negative).</param>
-    Task MovimentarPatrimonioAsync(Fundo fundo, decimal valor);
+    Task UpdateFundAssetsAsync(Fundo fundo, decimal valor);
 }

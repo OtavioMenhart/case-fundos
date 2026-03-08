@@ -76,10 +76,11 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [HttpPut("{codigo}/patrimonio")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> MovimentarPatrimonio(string codigo, [FromBody] decimal valor)
+    public async Task<IActionResult> UpdateFundAssets(string codigo, [FromBody] decimal valor)
     {
-        var updated = await _fundoService.MovimentarPatrimonioAsync(codigo, valor);
+        var updated = await _fundoService.UpdateFundAssetsAsync(codigo, valor);
         return updated ? Ok() : NotFound();
     }
 }
