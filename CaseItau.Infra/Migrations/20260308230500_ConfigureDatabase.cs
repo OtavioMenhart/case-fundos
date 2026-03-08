@@ -2,10 +2,12 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CaseItau.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class ConfigureDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,8 +29,6 @@ namespace CaseItau.Infra.Migrations
                 name: "FUNDO",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     CODIGO = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     NOME = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CNPJ = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
@@ -37,13 +37,23 @@ namespace CaseItau.Infra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FUNDO", x => x.ID);
+                    table.PrimaryKey("PK_FUNDO", x => x.CODIGO);
                     table.ForeignKey(
                         name: "FK_FUNDO_TIPO_FUNDO_CODIGO_TIPO",
                         column: x => x.CODIGO_TIPO,
                         principalTable: "TIPO_FUNDO",
                         principalColumn: "CODIGO",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "TIPO_FUNDO",
+                columns: new[] { "CODIGO", "NOME" },
+                values: new object[,]
+                {
+                    { 1, "RENDA FIXA" },
+                    { 2, "ACOES" },
+                    { 3, "MULTI MERCADO" }
                 });
 
             migrationBuilder.CreateIndex(

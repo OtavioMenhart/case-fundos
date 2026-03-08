@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CaseItau.Domain.ValueObjects;
 
 namespace CaseItau.Domain.Entities;
 
@@ -9,12 +10,8 @@ namespace CaseItau.Domain.Entities;
 [Table("FUNDO")]
 public class Fundo
 {
-    /// <summary>Gets or sets the unique identifier of the fund.</summary>
-    [Key]
-    [Column("ID")]
-    public int Id { get; set; }
-
     /// <summary>Gets or sets the unique code of the fund.</summary>
+    [Key]
     [Column("CODIGO")]
     [MaxLength(20)]
     [Required]
@@ -28,9 +25,7 @@ public class Fundo
 
     /// <summary>Gets or sets the CNPJ of the fund.</summary>
     [Column("CNPJ")]
-    [MaxLength(14)]
-    [Required]
-    public string Cnpj { get; set; } = string.Empty;
+    public Cnpj Cnpj { get; set; } = null!;
 
     /// <summary>Gets or sets the fund type code (foreign key).</summary>
     [Column("CODIGO_TIPO")]

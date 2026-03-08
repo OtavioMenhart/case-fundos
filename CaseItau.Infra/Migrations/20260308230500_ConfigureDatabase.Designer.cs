@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CaseItau.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260307010000_SeedTipoFundo")]
-    partial class SeedTipoFundo
+    [Migration("20260308230500_ConfigureDatabase")]
+    partial class ConfigureDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,24 +26,16 @@ namespace CaseItau.Infra.Migrations
 
             modelBuilder.Entity("CaseItau.Domain.Entities.Fundo", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Codigo")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("CODIGO");
 
                     b.Property<string>("Cnpj")
                         .IsRequired()
                         .HasMaxLength(14)
                         .HasColumnType("nvarchar(14)")
                         .HasColumnName("CNPJ");
-
-                    b.Property<string>("Codigo")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("CODIGO");
 
                     b.Property<int>("CodigoTipo")
                         .HasColumnType("int")
@@ -59,7 +51,7 @@ namespace CaseItau.Infra.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("PATRIMONIO");
 
-                    b.HasKey("Id");
+                    b.HasKey("Codigo");
 
                     b.HasIndex("Cnpj")
                         .IsUnique();
@@ -72,7 +64,7 @@ namespace CaseItau.Infra.Migrations
                     b.ToTable("FUNDO");
                 });
 
-            modelBuilder.Entity("CaseItau.Domain.Entities.TipoFundo", b =>
+            modelBuilder.Entity("CaseItau.Domain.ValueObjects.TipoFundo", b =>
                 {
                     b.Property<int>("Codigo")
                         .ValueGeneratedOnAdd()
@@ -111,18 +103,13 @@ namespace CaseItau.Infra.Migrations
 
             modelBuilder.Entity("CaseItau.Domain.Entities.Fundo", b =>
                 {
-                    b.HasOne("CaseItau.Domain.Entities.TipoFundo", "TipoFundo")
-                        .WithMany("Fundos")
+                    b.HasOne("CaseItau.Domain.ValueObjects.TipoFundo", "TipoFundo")
+                        .WithMany()
                         .HasForeignKey("CodigoTipo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("TipoFundo");
-                });
-
-            modelBuilder.Entity("CaseItau.Domain.Entities.TipoFundo", b =>
-                {
-                    b.Navigation("Fundos");
                 });
 #pragma warning restore 612, 618
         }

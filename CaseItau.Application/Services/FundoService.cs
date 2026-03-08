@@ -3,6 +3,7 @@ using CaseItau.Application.Interfaces;
 using CaseItau.Domain.Entities;
 using CaseItau.Domain.Exceptions;
 using CaseItau.Domain.Interfaces;
+using CaseItau.Domain.ValueObjects;
 using CaseItau.Infra.Interfaces;
 
 namespace CaseItau.Application.Services;
@@ -40,7 +41,7 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
         {
             Codigo = dto.Codigo,
             Nome = dto.Nome,
-            Cnpj = dto.Cnpj,
+            Cnpj = new Cnpj(dto.Cnpj),
             CodigoTipo = dto.CodigoTipo,
             Patrimonio = dto.Patrimonio
         };
@@ -58,7 +59,7 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
             throw new DomainException($"CodigoTipo '{dto.CodigoTipo}' does not exist.");
 
         fundo.Nome = dto.Nome;
-        fundo.Cnpj = dto.Cnpj;
+        fundo.Cnpj = new Cnpj(dto.Cnpj);
         fundo.CodigoTipo = dto.CodigoTipo;
 
         _repository.Update(fundo);
@@ -95,7 +96,7 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
     {
         Codigo = fundo.Codigo,
         Nome = fundo.Nome,
-        Cnpj = fundo.Cnpj,
+        Cnpj = fundo.Cnpj.Value,
         CodigoTipo = fundo.CodigoTipo,
         NomeTipo = fundo.TipoFundo?.Nome ?? string.Empty,
         Patrimonio = fundo.Patrimonio

@@ -1,4 +1,5 @@
 ﻿using CaseItau.Domain.Entities;
+using CaseItau.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace CaseItau.Infra.Data;
@@ -17,6 +18,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     /// <inheritdoc/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Fundo>()
+                    .Property(f => f.Cnpj)
+                    .HasConversion(
+                        cnpj => cnpj.Value,
+                        value => new Cnpj(value))
+                    .HasMaxLength(14)
+                    .IsRequired();
+
         modelBuilder.Entity<Fundo>()
                     .HasIndex(f => f.Codigo)
                     .IsUnique();

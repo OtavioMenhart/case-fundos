@@ -1,6 +1,5 @@
 ﻿using CaseItau.Application.Interfaces;
-using CaseItau.Domain.Entities;
-using CaseItau.Domain.Interfaces;
+using CaseItau.Domain.ValueObjects;
 using CaseItau.Infra.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 
