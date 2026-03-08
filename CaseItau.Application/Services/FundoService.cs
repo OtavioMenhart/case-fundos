@@ -37,6 +37,12 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
         if (!await _tipoFundoCacheService.ExistsAsync(dto.CodigoTipo, cancellationToken))
             throw new DomainException($"CodigoTipo '{dto.CodigoTipo}' does not exist.");
 
+        var (codigoExists, cnpjExists) = await _repository.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, cancellationToken);
+        if (codigoExists)
+            throw new DomainException($"Codigo '{dto.Codigo}' already exists.");
+        if (cnpjExists)
+            throw new DomainException($"Cnpj '{dto.Cnpj}' already exists.");
+
         var fundo = new Fundo
         {
             Codigo = dto.Codigo,
@@ -52,11 +58,14 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
     /// <inheritdoc/>
     public async Task<bool> UpdateAsync(string codigo, UpdateFundoDto dto, CancellationToken cancellationToken)
     {
-        var fundo = await _repository.GetByCodigoAsync(codigo, cancellationToken);
+        var (fundo, cnpjTakenByOther) = await _repository.FindForUpdateAsync(codigo, dto.Cnpj, cancellationToken);
         if (fundo is null) return false;
 
         if (!await _tipoFundoCacheService.ExistsAsync(dto.CodigoTipo, cancellationToken))
             throw new DomainException($"CodigoTipo '{dto.CodigoTipo}' does not exist.");
+
+        if (cnpjTakenByOther)
+            throw new DomainException($"Cnpj '{dto.Cnpj}' already exists.");
 
         fundo.Nome = dto.Nome;
         fundo.Cnpj = new Cnpj(dto.Cnpj);
