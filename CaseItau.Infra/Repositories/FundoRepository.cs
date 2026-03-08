@@ -8,44 +8,16 @@ namespace CaseItau.Infra.Repositories;
 /// <summary>
 /// Entity Framework Core implementation of <see cref="IFundoRepository"/>.
 /// </summary>
-public class FundoRepository(AppDbContext context) : IFundoRepository
+public class FundoRepository : BaseRepository<Fundo>, IFundoRepository
 {
-    private readonly AppDbContext _context = context;
+    private DbSet<Fundo> _dataSet;
 
-    /// <inheritdoc/>
-    public async Task<IEnumerable<Fundo>> GetAllAsync()
-        => await _context.Fundos.Include(f => f.TipoFundo).ToListAsync();
-
-    /// <inheritdoc/>
-    public async Task<Fundo?> GetByCodigoAsync(string codigo)
-        => await _context.Fundos.Include(f => f.TipoFundo).FirstOrDefaultAsync(f => f.Codigo == codigo);
-
-    /// <inheritdoc/>
-    public async Task AddAsync(Fundo fundo)
+    public FundoRepository(AppDbContext context) : base(context)
     {
-        await _context.Fundos.AddAsync(fundo);
-        await _context.SaveChangesAsync();
+        _dataSet = context.Set<Fundo>();
     }
 
     /// <inheritdoc/>
-    public async Task UpdateAsync(Fundo fundo)
-    {
-        _context.Fundos.Update(fundo);
-        await _context.SaveChangesAsync();
-    }
-
-    /// <inheritdoc/>
-    public async Task DeleteAsync(Fundo fundo)
-    {
-        _context.Fundos.Remove(fundo);
-        await _context.SaveChangesAsync();
-    }
-
-    /// <inheritdoc/>
-    public async Task UpdateFundAssetsAsync(Fundo fundo, decimal valor)
-    {
-        fundo.Patrimonio = valor;
-        _context.Fundos.Update(fundo);
-        await _context.SaveChangesAsync();
-    }
+    public async Task<Fundo?> GetByCodigoAsync(string codigo, CancellationToken cancellationToken)
+        => await _dataSet.Include(f => f.TipoFundo).SingleOrDefaultAsync(f => f.Codigo == codigo, cancellationToken);
 }

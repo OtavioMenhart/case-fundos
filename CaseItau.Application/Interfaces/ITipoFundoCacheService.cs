@@ -9,6 +9,7 @@ public interface ITipoFundoCacheService
     /// Determines whether a fund type with the given code exists.
     /// </summary>
     /// <param name="codigo">The fund type code to look up.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns><c>true</c> if the fund type exists; otherwise <c>false</c>.</returns>
-    Task<bool> ExistsAsync(int codigo);
+    Task<bool> ExistsAsync(int codigo, CancellationToken cancellationToken);
 }

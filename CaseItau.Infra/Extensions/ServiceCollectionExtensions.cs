@@ -1,5 +1,6 @@
 ﻿using CaseItau.Domain.Interfaces;
 using CaseItau.Infra.Data;
+using CaseItau.Infra.Interfaces;
 using CaseItau.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,8 +26,10 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
         services.AddScoped<IFundoRepository, FundoRepository>();
-        services.AddScoped<ITipoFundoRepository, TipoFundoRepository>();
 
         return services;
     }

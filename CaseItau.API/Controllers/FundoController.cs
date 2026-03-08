@@ -15,9 +15,9 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<FundoDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get(CancellationToken cancellationToken = default)
     {
-        var fundos = await _fundoService.GetAllAsync();
+        var fundos = await _fundoService.GetAllAsync(cancellationToken);
 
         if (fundos == null || !fundos.Any())
             return NotFound();
@@ -30,9 +30,9 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [ProducesResponseType(typeof(FundoDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get(string codigo)
+    public async Task<IActionResult> Get(string codigo, CancellationToken cancellationToken = default)
     {
-        var fundo = await _fundoService.GetByCodigoAsync(codigo);
+        var fundo = await _fundoService.GetByCodigoAsync(codigo, cancellationToken);
         return fundo is null ? NotFound() : Ok(fundo);
     }
 
@@ -42,9 +42,9 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Post([FromBody] CreateFundoDto dto)
+    public async Task<IActionResult> Post([FromBody] CreateFundoDto dto, CancellationToken cancellationToken = default)
     {
-        await _fundoService.CreateAsync(dto);
+        await _fundoService.CreateAsync(dto, cancellationToken);
         return CreatedAtAction(nameof(Get), new { codigo = dto.Codigo }, dto);
     }
 
@@ -55,9 +55,9 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Put(string codigo, [FromBody] UpdateFundoDto dto)
+    public async Task<IActionResult> Put(string codigo, [FromBody] UpdateFundoDto dto, CancellationToken cancellationToken = default)
     {
-        var updated = await _fundoService.UpdateAsync(codigo, dto);
+        var updated = await _fundoService.UpdateAsync(codigo, dto, cancellationToken);
         return updated ? Ok() : NotFound();
     }
 
@@ -66,9 +66,9 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Delete(string codigo)
+    public async Task<IActionResult> Delete(string codigo, CancellationToken cancellationToken = default)
     {
-        var deleted = await _fundoService.DeleteAsync(codigo);
+        var deleted = await _fundoService.DeleteAsync(codigo, cancellationToken);
         return deleted ? Ok() : NotFound();
     }
 
@@ -78,9 +78,9 @@ public class FundoController(IFundoService fundoService) : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateFundAssets(string codigo, [FromBody] decimal valor)
+    public async Task<IActionResult> UpdateFundAssets(string codigo, [FromBody] decimal valor, CancellationToken cancellationToken = default)
     {
-        var updated = await _fundoService.UpdateFundAssetsAsync(codigo, valor);
+        var updated = await _fundoService.UpdateFundAssetsAsync(codigo, valor, cancellationToken);
         return updated ? Ok() : NotFound();
     }
 }
