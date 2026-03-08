@@ -1,5 +1,4 @@
-﻿using CaseItau.Application.DTOs;
-using CaseItau.Application.Interfaces;
+﻿using CaseItau.Application.Interfaces;
 using CaseItau.Application.Services;
 using CaseItau.Application.Validators;
 using FluentValidation;
@@ -22,8 +21,7 @@ public static class ServiceCollectionExtensions
         services.AddMemoryCache();
         services.AddScoped<IFundoService, FundoService>();
         services.AddScoped<ITipoFundoCacheService, TipoFundoCacheService>();
-        services.AddScoped<IValidator<CreateFundoDto>, CreateFundoDtoValidator>();
-        services.AddScoped<IValidator<UpdateFundoDto>, UpdateFundoDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateFundoDtoValidator>(ServiceLifetime.Transient);
         return services;
     }
 }
