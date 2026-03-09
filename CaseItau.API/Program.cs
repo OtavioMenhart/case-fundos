@@ -2,6 +2,7 @@
 using CaseItau.Application.Extensions;
 using CaseItau.Infra.Extensions;
 using Serilog;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
+
+builder.Services.AddFluentValidationAutoValidation();
 
 // Serilog
 builder.Host.UseSerilog((context, services, configuration) =>
