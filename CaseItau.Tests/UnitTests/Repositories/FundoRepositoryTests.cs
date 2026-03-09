@@ -3,11 +3,12 @@ using CaseItau.Domain.Entities;
 using CaseItau.Domain.Exceptions;
 using CaseItau.Domain.ValueObjects;
 using CaseItau.Infra.Data;
+using CaseItau.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Moq;
 
-namespace CaseItau.Infra.Repositories.UnitTests;
+namespace CaseItau.Tests.UnitTests.Repositories;
 
 
 /// <summary>

@@ -1,11 +1,12 @@
 ﻿using Bogus;
+using CaseItau.API.Controllers;
 using CaseItau.Application.DTOs;
 using CaseItau.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace CaseItau.API.Controllers.UnitTests;
+namespace CaseItau.Tests.UnitTests.Controllers;
 
 
 /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using CaseItau.Application.Services;
 using CaseItau.Domain.ValueObjects;
 using CaseItau.Infra.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 
 
-namespace CaseItau.Application.Services.UnitTests;
+namespace CaseItau.Tests.UnitTests.Services;
 
 /// <summary>
 /// Unit tests for <see cref="TipoFundoCacheService"/>.

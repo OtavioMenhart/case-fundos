@@ -1,8 +1,9 @@
 ﻿using Bogus;
 using CaseItau.Infra.Data;
+using CaseItau.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace CaseItau.Infra.Repositories.UnitTests
+namespace CaseItau.Tests.UnitTests.Repositories
 {
     public class BaseRepositoryTests
     {

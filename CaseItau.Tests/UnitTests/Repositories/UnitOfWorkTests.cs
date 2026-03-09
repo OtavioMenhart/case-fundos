@@ -1,9 +1,10 @@
 ﻿using Bogus;
 using CaseItau.Infra.Data;
+using CaseItau.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace CaseItau.Infra.Repositories.UnitTests
+namespace CaseItau.Tests.UnitTests.Repositories
 {
     /// <summary>
     /// Unit tests for the <see cref="UnitOfWork"/> class.

@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using CaseItau.Application.DTOs;
 using CaseItau.Application.Interfaces;
+using CaseItau.Application.Services;
 using CaseItau.Domain.Entities;
 using CaseItau.Domain.Exceptions;
 using CaseItau.Domain.Interfaces;
@@ -9,7 +10,7 @@ using CaseItau.Infra.Interfaces;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace CaseItau.Application.Services.UnitTests;
+namespace CaseItau.Tests.UnitTests.Services;
 
 
 /// <summary>
