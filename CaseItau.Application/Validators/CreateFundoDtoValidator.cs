@@ -1,4 +1,6 @@
-﻿using CaseItau.Application.DTOs;
+﻿using CaseItau.Application.Constants;
+using CaseItau.Application.DTOs;
+using CaseItau.Domain.Constants;
 using FluentValidation;
 
 namespace CaseItau.Application.Validators;
@@ -14,23 +16,23 @@ public class CreateFundoDtoValidator : AbstractValidator<CreateFundoDto>
     public CreateFundoDtoValidator()
     {
         RuleFor(x => x.Codigo)
-            .NotEmpty().WithMessage("Codigo is required.")
-            .MaximumLength(20).WithMessage("Codigo must not exceed 20 characters.");
+            .NotEmpty().WithMessage(ValidationMessages.Codigo.Required)
+            .MaximumLength(FundoConstants.CodigoMaxLength).WithMessage(ValidationMessages.Codigo.MaxLength);
 
         RuleFor(x => x.Nome)
-            .NotEmpty().WithMessage("Nome is required.")
-            .MaximumLength(100).WithMessage("Nome must not exceed 100 characters.");
+            .NotEmpty().WithMessage(ValidationMessages.Nome.Required)
+            .MaximumLength(FundoConstants.NomeMaxLength).WithMessage(ValidationMessages.Nome.MaxLength);
 
         RuleFor(x => x.Cnpj)
-            .NotEmpty().WithMessage("Cnpj is required.")
-            .Length(14).WithMessage("Cnpj must be exactly 14 characters.")
-            .Matches(@"^\d{14}$").WithMessage("Cnpj must contain only digits.");
+            .NotEmpty().WithMessage(ValidationMessages.Cnpj.Required)
+            .Length(FundoConstants.CnpjLength).WithMessage(ValidationMessages.Cnpj.Length)
+            .Matches(FundoConstants.CnpjPattern).WithMessage(ValidationMessages.Cnpj.OnlyDigits);
 
         RuleFor(x => x.CodigoTipo)
-            .GreaterThan(0).WithMessage("CodigoTipo must be greater than zero.");
+            .GreaterThan(0).WithMessage(ValidationMessages.CodigoTipo.GreaterThanZero);
 
         RuleFor(x => x.Patrimonio)
-            .GreaterThanOrEqualTo(0).WithMessage("Patrimonio must be greater than or equal to zero.")
+            .GreaterThanOrEqualTo(0).WithMessage(ValidationMessages.Patrimonio.GreaterThanOrEqualToZero)
             .When(x => x.Patrimonio.HasValue);
     }
 }

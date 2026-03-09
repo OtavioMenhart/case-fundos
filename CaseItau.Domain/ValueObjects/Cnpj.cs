@@ -1,4 +1,5 @@
-﻿using CaseItau.Domain.Exceptions;
+﻿using CaseItau.Domain.Constants;
+using CaseItau.Domain.Exceptions;
 
 namespace CaseItau.Domain.ValueObjects;
 
@@ -17,8 +18,8 @@ public record Cnpj
     /// <exception cref="DomainException">Thrown when the value is not a valid CNPJ.</exception>
     public Cnpj(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || value.Length != 14 || !value.All(char.IsDigit))
-            throw new DomainException("Cnpj must be exactly 14 numeric digits.");
+        if (string.IsNullOrWhiteSpace(value) || value.Length != FundoConstants.CnpjLength || !value.All(char.IsDigit))
+            throw new DomainException($"Cnpj must be exactly {FundoConstants.CnpjLength} numeric digits.");
 
         Value = value;
     }

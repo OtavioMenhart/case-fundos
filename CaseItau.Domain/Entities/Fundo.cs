@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CaseItau.Domain.Constants;
 using CaseItau.Domain.ValueObjects;
 
 namespace CaseItau.Domain.Entities;
@@ -13,13 +14,13 @@ public class Fundo
     /// <summary>Gets or sets the unique code of the fund.</summary>
     [Key]
     [Column("CODIGO")]
-    [MaxLength(20)]
+    [MaxLength(FundoConstants.CodigoMaxLength)]
     [Required]
     public string Codigo { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the name of the fund.</summary>
     [Column("NOME")]
-    [MaxLength(100)]
+    [MaxLength(FundoConstants.NomeMaxLength)]
     [Required]
     public string Nome { get; set; } = string.Empty;
 

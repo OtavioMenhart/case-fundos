@@ -1,4 +1,6 @@
-﻿using CaseItau.Application.DTOs;
+﻿using CaseItau.Application.Constants;
+using CaseItau.Application.DTOs;
+using CaseItau.Domain.Constants;
 using FluentValidation;
 
 namespace CaseItau.Application.Validators;
@@ -14,15 +16,15 @@ public class UpdateFundoDtoValidator : AbstractValidator<UpdateFundoDto>
     public UpdateFundoDtoValidator()
     {
         RuleFor(x => x.Nome)
-            .NotEmpty().WithMessage("Nome is required.")
-            .MaximumLength(100).WithMessage("Nome must not exceed 100 characters.");
+            .NotEmpty().WithMessage(ValidationMessages.Nome.Required)
+            .MaximumLength(FundoConstants.NomeMaxLength).WithMessage(ValidationMessages.Nome.MaxLength);
 
         RuleFor(x => x.Cnpj)
-            .NotEmpty().WithMessage("Cnpj is required.")
-            .Length(14).WithMessage("Cnpj must be exactly 14 characters.")
-            .Matches(@"^\d{14}$").WithMessage("Cnpj must contain only digits.");
+            .NotEmpty().WithMessage(ValidationMessages.Cnpj.Required)
+            .Length(FundoConstants.CnpjLength).WithMessage(ValidationMessages.Cnpj.Length)
+            .Matches(FundoConstants.CnpjPattern).WithMessage(ValidationMessages.Cnpj.OnlyDigits);
 
         RuleFor(x => x.CodigoTipo)
-            .GreaterThan(0).WithMessage("CodigoTipo must be greater than zero.");
+            .GreaterThan(0).WithMessage(ValidationMessages.CodigoTipo.GreaterThanZero);
     }
 }

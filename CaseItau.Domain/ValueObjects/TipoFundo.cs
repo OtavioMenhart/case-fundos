@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CaseItau.Domain.Constants;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CaseItau.Domain.ValueObjects;
@@ -16,7 +17,7 @@ public record TipoFundo
 
     /// <summary>Gets the name of the fund type.</summary>
     [Column("NOME")]
-    [MaxLength(20)]
+    [MaxLength(FundoConstants.TipoNomeMaxLength)]
     [Required]
     public string Nome { get; init; } = string.Empty;
 }
