@@ -19,8 +19,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMemoryCache();
-        services.AddScoped<IFundoService, FundoService>();
-        services.AddScoped<ITipoFundoCacheService, TipoFundoCacheService>();
+        services.AddTransient<IFundoService, FundoService>();
+        services.AddTransient<ITipoFundoCacheService, TipoFundoCacheService>();
         services.AddValidatorsFromAssemblyContaining<CreateFundoDtoValidator>(ServiceLifetime.Transient);
         return services;
     }
