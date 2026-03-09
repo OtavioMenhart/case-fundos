@@ -19,6 +19,8 @@ namespace CaseItau.API.Filters
         {
             if (context.Exception is DomainException domainEx)
             {
+                _logger.LogWarning("Business rule violation: {Message}", domainEx.Message);
+
                 var problemDetails = new ProblemDetails
                 {
                     Status = StatusCodes.Status422UnprocessableEntity,
