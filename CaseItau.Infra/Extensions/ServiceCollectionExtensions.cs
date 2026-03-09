@@ -62,6 +62,9 @@ public static class ServiceCollectionExtensions
     {
         var otlpEndpoint = configuration.GetValue<string>("OpenTelemetry:OtlpEndpoint");
 
+        if (string.IsNullOrEmpty(otlpEndpoint))
+            return services;
+
         services.AddOpenTelemetry()
             .WithTracing(tracerProviderBuilder =>
             {
@@ -73,7 +76,7 @@ public static class ServiceCollectionExtensions
                     .AddEntityFrameworkCoreInstrumentation()
                     .AddOtlpExporter(options =>
                     {
-                        options.Endpoint = new Uri(otlpEndpoint); // OTLP HTTP endpoint
+                        options.Endpoint = new Uri(otlpEndpoint);
                         options.Protocol = OtlpExportProtocol.HttpProtobuf;
                     });
             });

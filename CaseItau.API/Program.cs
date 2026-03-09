@@ -31,8 +31,9 @@ builder.Services.AddApplication();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Database migration at startup
-builder.Host.MigrateDatabase();
+// Database migration at startup (skipped in test environment)
+if (!builder.Environment.IsEnvironment("Testing"))
+    builder.Host.MigrateDatabase();
 
 var app = builder.Build();
 
