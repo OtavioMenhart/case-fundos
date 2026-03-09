@@ -971,7 +971,6 @@ public class FundoControllerTests
         var returnedDto = Assert.IsType<CreateFundoDto>(createdAtActionResult.Value);
         Assert.Equal(decimal.MinValue, returnedDto.Patrimonio);
     }
-    private readonly Faker<FundoDto> _fundoDtoFaker;
 
     /// <summary>
     /// Tests that Get returns NotFoundResult when the service returns null.
