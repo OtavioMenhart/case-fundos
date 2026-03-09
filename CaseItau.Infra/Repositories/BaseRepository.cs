@@ -15,14 +15,14 @@ namespace CaseItau.Infra.Repositories
         }
 
         public virtual async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-            => await _dbSet.FindAsync(id, cancellationToken).ConfigureAwait(false);
+            => await _dbSet.FindAsync(id, cancellationToken);
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
-            => await _dbSet.ToListAsync(cancellationToken).ConfigureAwait(false);
+            => await _dbSet.ToListAsync(cancellationToken);
 
         public virtual async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
         {
-            await _dbSet.AddAsync(entity, cancellationToken).ConfigureAwait(false);
+            await _dbSet.AddAsync(entity, cancellationToken);
         }
 
         public virtual void Update(TEntity entity)

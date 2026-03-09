@@ -15,7 +15,7 @@ namespace CaseItau.Infra.Repositories
         public async Task CommitAsync(CancellationToken cancellationToken)
         {
             // In a real application, you might want to get change tracking information here to log or handle specific cases before saving.
-            await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         public Task RollbackAsync()
