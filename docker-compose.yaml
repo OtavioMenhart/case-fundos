@@ -22,6 +22,22 @@
       - "5341:5341"
       - "8081:80"
 
+  caseitau-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: caseitau-api
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=CaseItau;User Id=sa;Password=PwdSql123;TrustServerCertificate=True"
+      OpenTelemetry__OtlpEndpoint: "http://seq:5341/ingest/otlp/v1/traces"
+      Serilog__WriteTo__1__Args__serverUrl: "http://seq:5341"
+    depends_on:
+      - sqlserver
+      - seq
+
 volumes:
   sqlserver_data:
   seq_data:
