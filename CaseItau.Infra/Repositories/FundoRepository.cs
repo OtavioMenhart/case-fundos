@@ -27,7 +27,7 @@ public class FundoRepository : BaseRepository<Fundo>, IFundoRepository
         => await _dataSet.Include(f => f.TipoFundo).SingleOrDefaultAsync(f => f.Codigo == codigo, cancellationToken);
 
     /// <inheritdoc/>
-    public async Task<(bool CodigoExists, bool CnpjExists)> CheckDuplicateKeysAsync(
+    public async Task<(bool CodigoExists, bool CnpjExists)> CheckDuplicatedKeysAsync(
         string codigo, string cnpj, CancellationToken cancellationToken)
     {
         var cnpjVo = new Cnpj(cnpj);

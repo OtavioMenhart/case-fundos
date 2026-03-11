@@ -297,12 +297,12 @@ public partial class TipoFundoCacheServiceTests
     }
 
     /// <summary>
-    /// Tests that ExistsAsync correctly handles duplicate codigo values in collection.
-    /// Input: Codigo that has duplicates in cached collection.
+    /// Tests that ExistsAsync correctly handles duplicated codigo values in collection.
+    /// Input: Codigo that has duplicateds in cached collection.
     /// Expected: Returns true.
     /// </summary>
     [Fact]
-    public async Task ExistsAsync_WhenDuplicateCodigosExist_ReturnsTrue()
+    public async Task ExistsAsync_WhenDuplicatedCodigosExist_ReturnsTrue()
     {
         // Arrange
         int searchCodigo = _faker.Random.Int(1, 100);

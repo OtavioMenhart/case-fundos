@@ -123,12 +123,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync returns (false, false) when neither codigo nor cnpj exist in the database.
+    /// Tests that CheckDuplicatedKeysAsync returns (false, false) when neither codigo nor cnpj exist in the database.
     /// Input: Valid codigo and cnpj that don't match any existing entities.
     /// Expected: Returns (false, false).
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WhenNeitherExists_ReturnsFalseFalse()
+    public async Task CheckDuplicatedKeysAsync_WhenNeitherExists_ReturnsFalseFalse()
     {
         // Arrange
         string codigo = _faker.Random.AlphaNumeric(10);
@@ -142,7 +142,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(codigo, cnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(codigo, cnpj, CancellationToken.None);
 
         // Assert
         Assert.False(codigoExists);
@@ -150,12 +150,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync returns (true, false) when only codigo exists in the database.
+    /// Tests that CheckDuplicatedKeysAsync returns (true, false) when only codigo exists in the database.
     /// Input: Valid codigo that matches an existing entity, cnpj that doesn't match.
     /// Expected: Returns (true, false).
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WhenOnlyCodigoExists_ReturnsTrueFalse()
+    public async Task CheckDuplicatedKeysAsync_WhenOnlyCodigoExists_ReturnsTrueFalse()
     {
         // Arrange
         string matchingCodigo = _faker.Random.AlphaNumeric(10);
@@ -180,7 +180,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(matchingCodigo, nonMatchingCnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(matchingCodigo, nonMatchingCnpj, CancellationToken.None);
 
         // Assert
         Assert.True(codigoExists);
@@ -188,12 +188,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync returns (false, true) when only cnpj exists in the database.
+    /// Tests that CheckDuplicatedKeysAsync returns (false, true) when only cnpj exists in the database.
     /// Input: Valid cnpj that matches an existing entity, codigo that doesn't match.
     /// Expected: Returns (false, true).
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WhenOnlyCnpjExists_ReturnsFalseTrue()
+    public async Task CheckDuplicatedKeysAsync_WhenOnlyCnpjExists_ReturnsFalseTrue()
     {
         // Arrange
         string nonMatchingCodigo = _faker.Random.AlphaNumeric(10);
@@ -217,7 +217,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(nonMatchingCodigo, matchingCnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(nonMatchingCodigo, matchingCnpj, CancellationToken.None);
 
         // Assert
         Assert.False(codigoExists);
@@ -225,12 +225,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync returns (true, true) when both codigo and cnpj exist in different entities.
+    /// Tests that CheckDuplicatedKeysAsync returns (true, true) when both codigo and cnpj exist in different entities.
     /// Input: Valid codigo and cnpj that match different existing entities.
     /// Expected: Returns (true, true).
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WhenBothExistInDifferentEntities_ReturnsTrueTrue()
+    public async Task CheckDuplicatedKeysAsync_WhenBothExistInDifferentEntities_ReturnsTrueTrue()
     {
         // Arrange
         string matchingCodigo = _faker.Random.AlphaNumeric(10);
@@ -261,7 +261,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(matchingCodigo, matchingCnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(matchingCodigo, matchingCnpj, CancellationToken.None);
 
         // Assert
         Assert.True(codigoExists);
@@ -269,12 +269,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync returns (true, true) when both codigo and cnpj exist in the same entity.
+    /// Tests that CheckDuplicatedKeysAsync returns (true, true) when both codigo and cnpj exist in the same entity.
     /// Input: Valid codigo and cnpj that both match the same existing entity.
     /// Expected: Returns (true, true).
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WhenBothExistInSameEntity_ReturnsTrueTrue()
+    public async Task CheckDuplicatedKeysAsync_WhenBothExistInSameEntity_ReturnsTrueTrue()
     {
         // Arrange
         string matchingCodigo = _faker.Random.AlphaNumeric(10);
@@ -298,7 +298,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(matchingCodigo, matchingCnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(matchingCodigo, matchingCnpj, CancellationToken.None);
 
         // Assert
         Assert.True(codigoExists);
@@ -306,12 +306,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync returns correct results when multiple entities match the criteria.
+    /// Tests that CheckDuplicatedKeysAsync returns correct results when multiple entities match the criteria.
     /// Input: Valid codigo and cnpj where multiple entities match either codigo or cnpj.
     /// Expected: Returns (true, true).
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WithMultipleMatches_ReturnsCorrectFlags()
+    public async Task CheckDuplicatedKeysAsync_WithMultipleMatches_ReturnsCorrectFlags()
     {
         // Arrange
         string matchingCodigo = _faker.Random.AlphaNumeric(10);
@@ -349,7 +349,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(matchingCodigo, matchingCnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(matchingCodigo, matchingCnpj, CancellationToken.None);
 
         // Assert
         Assert.True(codigoExists);
@@ -357,7 +357,7 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync throws DomainException when cnpj is invalid.
+    /// Tests that CheckDuplicatedKeysAsync throws DomainException when cnpj is invalid.
     /// Input: Valid codigo, invalid cnpj (null, empty, whitespace, wrong length, non-numeric).
     /// Expected: Throws DomainException.
     /// </summary>
@@ -371,7 +371,7 @@ public class FundoRepositoryTests
     [InlineData("1234567890123A")]
     [InlineData("ABCDEFGHIJKLMN")]
     [InlineData("12.345.678/0001-99")]
-    public async Task CheckDuplicateKeysAsync_WithInvalidCnpj_ThrowsDomainException(string? invalidCnpj)
+    public async Task CheckDuplicatedKeysAsync_WithInvalidCnpj_ThrowsDomainException(string? invalidCnpj)
     {
         // Arrange
         string codigo = _faker.Random.AlphaNumeric(10);
@@ -385,18 +385,18 @@ public class FundoRepositoryTests
 
         // Act & Assert
         DomainException exception = await Assert.ThrowsAsync<DomainException>(
-            async () => await repository.CheckDuplicateKeysAsync(codigo, invalidCnpj!, CancellationToken.None));
+            async () => await repository.CheckDuplicatedKeysAsync(codigo, invalidCnpj!, CancellationToken.None));
 
         Assert.Equal("Cnpj must be exactly 14 numeric digits.", exception.Message);
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync properly passes the CancellationToken to the async database operation.
+    /// Tests that CheckDuplicatedKeysAsync properly passes the CancellationToken to the async database operation.
     /// Input: Valid codigo and cnpj with a custom CancellationToken.
     /// Expected: The token is passed through to ToListAsync.
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_PassesCancellationTokenCorrectly()
+    public async Task CheckDuplicatedKeysAsync_PassesCancellationTokenCorrectly()
     {
         // Arrange
         string codigo = _faker.Random.AlphaNumeric(10);
@@ -412,7 +412,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(codigo, cnpj, token);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(codigo, cnpj, token);
 
         // Assert
         Assert.False(codigoExists);
@@ -420,12 +420,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync handles empty string codigo correctly.
+    /// Tests that CheckDuplicatedKeysAsync handles empty string codigo correctly.
     /// Input: Empty string codigo, valid cnpj.
     /// Expected: Returns (false, false) when no match exists, or (true, *) if an entity has empty codigo.
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WithEmptyStringCodigo_ReturnsCorrectResult()
+    public async Task CheckDuplicatedKeysAsync_WithEmptyStringCodigo_ReturnsCorrectResult()
     {
         // Arrange
         string emptyCodigo = string.Empty;
@@ -439,7 +439,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(emptyCodigo, cnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(emptyCodigo, cnpj, CancellationToken.None);
 
         // Assert
         Assert.False(codigoExists);
@@ -447,12 +447,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync handles whitespace-only codigo correctly.
+    /// Tests that CheckDuplicatedKeysAsync handles whitespace-only codigo correctly.
     /// Input: Whitespace-only codigo, valid cnpj.
     /// Expected: Returns (false, false) when no match exists.
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WithWhitespaceCodigo_ReturnsCorrectResult()
+    public async Task CheckDuplicatedKeysAsync_WithWhitespaceCodigo_ReturnsCorrectResult()
     {
         // Arrange
         string whitespaceCodigo = "   ";
@@ -466,7 +466,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(whitespaceCodigo, cnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(whitespaceCodigo, cnpj, CancellationToken.None);
 
         // Assert
         Assert.False(codigoExists);
@@ -474,12 +474,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync handles very long codigo string correctly.
+    /// Tests that CheckDuplicatedKeysAsync handles very long codigo string correctly.
     /// Input: Very long codigo string (1000 characters), valid cnpj.
     /// Expected: Returns (false, false) when no match exists.
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WithVeryLongCodigo_ReturnsCorrectResult()
+    public async Task CheckDuplicatedKeysAsync_WithVeryLongCodigo_ReturnsCorrectResult()
     {
         // Arrange
         string longCodigo = new('X', 1000);
@@ -493,7 +493,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(longCodigo, cnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(longCodigo, cnpj, CancellationToken.None);
 
         // Assert
         Assert.False(codigoExists);
@@ -501,12 +501,12 @@ public class FundoRepositoryTests
     }
 
     /// <summary>
-    /// Tests that CheckDuplicateKeysAsync handles codigo with special characters correctly.
+    /// Tests that CheckDuplicatedKeysAsync handles codigo with special characters correctly.
     /// Input: Codigo with special characters, valid cnpj.
     /// Expected: Returns (false, false) when no match exists.
     /// </summary>
     [Fact]
-    public async Task CheckDuplicateKeysAsync_WithSpecialCharactersInCodigo_ReturnsCorrectResult()
+    public async Task CheckDuplicatedKeysAsync_WithSpecialCharactersInCodigo_ReturnsCorrectResult()
     {
         // Arrange
         string specialCodigo = "!@#$%^&*()";
@@ -520,7 +520,7 @@ public class FundoRepositoryTests
         FundoRepository repository = new(mockContext.Object);
 
         // Act
-        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicateKeysAsync(specialCodigo, cnpj, CancellationToken.None);
+        (bool codigoExists, bool cnpjExists) = await repository.CheckDuplicatedKeysAsync(specialCodigo, cnpj, CancellationToken.None);
 
         // Assert
         Assert.False(codigoExists);

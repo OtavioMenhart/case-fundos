@@ -54,15 +54,15 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
             throw new DomainException($"CodigoTipo '{dto.CodigoTipo}' does not exist.");
         }
 
-        var (codigoExists, cnpjExists) = await _repository.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, cancellationToken);
+        var (codigoExists, cnpjExists) = await _repository.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, cancellationToken);
         if (codigoExists)
         {
-            _logger.LogWarning("Duplicate codigo '{Codigo}' detected.", dto.Codigo);
+            _logger.LogWarning("Duplicated codigo '{Codigo}' detected.", dto.Codigo);
             throw new DomainException($"Codigo '{dto.Codigo}' already exists.");
         }
         if (cnpjExists)
         {
-            _logger.LogWarning("Duplicate CNPJ '{Cnpj}' detected.", dto.Cnpj);
+            _logger.LogWarning("Duplicated CNPJ '{Cnpj}' detected.", dto.Cnpj);
             throw new DomainException($"Cnpj '{dto.Cnpj}' already exists.");
         }
 
@@ -99,7 +99,7 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
 
         if (cnpjTakenByOther)
         {
-            _logger.LogWarning("Duplicate CNPJ '{Cnpj}' detected on update for codigo '{Codigo}'.", dto.Cnpj, codigo);
+            _logger.LogWarning("Duplicated CNPJ '{Cnpj}' detected on update for codigo '{Codigo}'.", dto.Cnpj, codigo);
             throw new DomainException($"Cnpj '{dto.Cnpj}' already exists.");
         }
 

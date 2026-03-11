@@ -24,7 +24,7 @@ public interface IFundoRepository : IBaseRepository<Fundo>
     /// A tuple where <c>CodigoExists</c> is <c>true</c> if the code is already in use,
     /// and <c>CnpjExists</c> is <c>true</c> if the CNPJ is already in use.
     /// </returns>
-    Task<(bool CodigoExists, bool CnpjExists)> CheckDuplicateKeysAsync(
+    Task<(bool CodigoExists, bool CnpjExists)> CheckDuplicatedKeysAsync(
         string codigo, string cnpj, CancellationToken cancellationToken);
 
     /// <summary>

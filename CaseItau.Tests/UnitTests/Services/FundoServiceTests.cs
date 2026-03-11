@@ -354,7 +354,7 @@ public partial class FundoServiceTests
 
     /// <summary>
     /// Tests that CreateAsync successfully creates a fund when all validations pass.
-    /// Input: Valid CreateFundoDto with no duplicates and existing CodigoTipo.
+    /// Input: Valid CreateFundoDto with no duplicateds and existing CodigoTipo.
     /// Expected: Fund is added to repository, unit of work is committed, and appropriate logs are written.
     /// </summary>
     [Fact]
@@ -375,7 +375,7 @@ public partial class FundoServiceTests
             .ReturnsAsync(true);
 
         _repositoryMock
-            .Setup(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
+            .Setup(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
             .ReturnsAsync((false, false));
 
         _repositoryMock
@@ -391,7 +391,7 @@ public partial class FundoServiceTests
 
         // Assert
         _tipoFundoCacheServiceMock.Verify(s => s.ExistsAsync(dto.CodigoTipo, It.IsAny<CancellationToken>()), Times.Once);
-        _repositoryMock.Verify(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()), Times.Once);
+        _repositoryMock.Verify(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()), Times.Once);
         _repositoryMock.Verify(r => r.AddAsync(It.Is<Fundo>(f =>
             f.Codigo == dto.Codigo &&
             f.Nome == dto.Nome &&
@@ -445,7 +445,7 @@ public partial class FundoServiceTests
 
         Assert.Equal($"CodigoTipo '{dto.CodigoTipo}' does not exist.", exception.Message);
         _tipoFundoCacheServiceMock.Verify(s => s.ExistsAsync(dto.CodigoTipo, It.IsAny<CancellationToken>()), Times.Once);
-        _repositoryMock.Verify(r => r.CheckDuplicateKeysAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _repositoryMock.Verify(r => r.CheckDuplicatedKeysAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
         _repositoryMock.Verify(r => r.AddAsync(It.IsAny<Fundo>(), It.IsAny<CancellationToken>()), Times.Never);
         _unitOfWorkMock.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         _loggerMock.Verify(
@@ -460,7 +460,7 @@ public partial class FundoServiceTests
 
     /// <summary>
     /// Tests that CreateAsync throws DomainException when Codigo already exists.
-    /// Input: CreateFundoDto with duplicate Codigo.
+    /// Input: CreateFundoDto with duplicated Codigo.
     /// Expected: DomainException is thrown with appropriate message and warning is logged.
     /// </summary>
     [Fact]
@@ -481,7 +481,7 @@ public partial class FundoServiceTests
             .ReturnsAsync(true);
 
         _repositoryMock
-            .Setup(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
+            .Setup(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
             .ReturnsAsync((true, false));
 
         // Act & Assert
@@ -489,14 +489,14 @@ public partial class FundoServiceTests
             () => _service.CreateAsync(dto, CancellationToken.None));
 
         Assert.Equal($"Codigo '{dto.Codigo}' already exists.", exception.Message);
-        _repositoryMock.Verify(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()), Times.Once);
+        _repositoryMock.Verify(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()), Times.Once);
         _repositoryMock.Verify(r => r.AddAsync(It.IsAny<Fundo>(), It.IsAny<CancellationToken>()), Times.Never);
         _unitOfWorkMock.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         _loggerMock.Verify(
             x => x.Log(
                 LogLevel.Warning,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Duplicate codigo '{dto.Codigo}' detected")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Duplicated codigo '{dto.Codigo}' detected")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -504,7 +504,7 @@ public partial class FundoServiceTests
 
     /// <summary>
     /// Tests that CreateAsync throws DomainException when CNPJ already exists.
-    /// Input: CreateFundoDto with duplicate CNPJ.
+    /// Input: CreateFundoDto with duplicated CNPJ.
     /// Expected: DomainException is thrown with appropriate message and warning is logged.
     /// </summary>
     [Fact]
@@ -525,7 +525,7 @@ public partial class FundoServiceTests
             .ReturnsAsync(true);
 
         _repositoryMock
-            .Setup(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
+            .Setup(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
             .ReturnsAsync((false, true));
 
         // Act & Assert
@@ -533,14 +533,14 @@ public partial class FundoServiceTests
             () => _service.CreateAsync(dto, CancellationToken.None));
 
         Assert.Equal($"Cnpj '{dto.Cnpj}' already exists.", exception.Message);
-        _repositoryMock.Verify(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()), Times.Once);
+        _repositoryMock.Verify(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()), Times.Once);
         _repositoryMock.Verify(r => r.AddAsync(It.IsAny<Fundo>(), It.IsAny<CancellationToken>()), Times.Never);
         _unitOfWorkMock.Verify(u => u.CommitAsync(It.IsAny<CancellationToken>()), Times.Never);
         _loggerMock.Verify(
             x => x.Log(
                 LogLevel.Warning,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Duplicate CNPJ '{dto.Cnpj}' detected")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Duplicated CNPJ '{dto.Cnpj}' detected")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -548,7 +548,7 @@ public partial class FundoServiceTests
 
     /// <summary>
     /// Tests that CreateAsync throws DomainException when both Codigo and CNPJ already exist.
-    /// Input: CreateFundoDto with duplicate Codigo and CNPJ.
+    /// Input: CreateFundoDto with duplicated Codigo and CNPJ.
     /// Expected: DomainException is thrown for Codigo (first check) and warning is logged.
     /// </summary>
     [Fact]
@@ -569,7 +569,7 @@ public partial class FundoServiceTests
             .ReturnsAsync(true);
 
         _repositoryMock
-            .Setup(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
+            .Setup(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
             .ReturnsAsync((true, true));
 
         // Act & Assert
@@ -607,7 +607,7 @@ public partial class FundoServiceTests
             .ReturnsAsync(true);
 
         _repositoryMock
-            .Setup(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, token))
+            .Setup(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, token))
             .ReturnsAsync((false, false));
 
         _repositoryMock
@@ -623,7 +623,7 @@ public partial class FundoServiceTests
 
         // Assert
         _tipoFundoCacheServiceMock.Verify(s => s.ExistsAsync(dto.CodigoTipo, token), Times.Once);
-        _repositoryMock.Verify(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, token), Times.Once);
+        _repositoryMock.Verify(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, token), Times.Once);
         _repositoryMock.Verify(r => r.AddAsync(It.IsAny<Fundo>(), token), Times.Once);
         _unitOfWorkMock.Verify(u => u.CommitAsync(token), Times.Once);
     }
@@ -656,7 +656,7 @@ public partial class FundoServiceTests
             .ReturnsAsync(true);
 
         _repositoryMock
-            .Setup(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
+            .Setup(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
             .ReturnsAsync((false, false));
 
         // Act & Assert
@@ -691,7 +691,7 @@ public partial class FundoServiceTests
             .ReturnsAsync(true);
 
         _repositoryMock
-            .Setup(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
+            .Setup(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
             .ReturnsAsync((false, false));
 
         _repositoryMock
@@ -741,7 +741,7 @@ public partial class FundoServiceTests
             .ReturnsAsync(true);
 
         _repositoryMock
-            .Setup(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
+            .Setup(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
             .ReturnsAsync((false, false));
 
         _repositoryMock
@@ -788,7 +788,7 @@ public partial class FundoServiceTests
             .ReturnsAsync(true);
 
         _repositoryMock
-            .Setup(r => r.CheckDuplicateKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
+            .Setup(r => r.CheckDuplicatedKeysAsync(dto.Codigo, dto.Cnpj, It.IsAny<CancellationToken>()))
             .ReturnsAsync((false, false));
 
         _repositoryMock
@@ -1229,7 +1229,7 @@ public partial class FundoServiceTests
             x => x.Log(
                 LogLevel.Warning,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Duplicate CNPJ '{dto.Cnpj}' detected on update for codigo '{codigo}'")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Duplicated CNPJ '{dto.Cnpj}' detected on update for codigo '{codigo}'")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
