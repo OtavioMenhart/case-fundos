@@ -1419,10 +1419,10 @@ public partial class FundoServiceTests
     /// <summary>
     /// Tests that UpdateAsync checks CodigoTipo existence before checking CNPJ duplication.
     /// Input: Fund exists, CodigoTipo doesn't exist, and CNPJ is taken by another.
-    /// Expected: Throws DomainException for CodigoTipo not existing (checked first).
+    /// Expected: Throws DomainException for CNPJ.
     /// </summary>
     [Fact]
-    public async Task UpdateAsync_WhenCodigoTipoDoesNotExistAndCnpjTaken_ThrowsCodigoTipoException()
+    public async Task UpdateAsync_WhenCodigoTipoDoesNotExistAndCnpjTaken_ThrowsCnpjException()
     {
         // Arrange
         string codigo = _faker.Random.AlphaNumeric(10);
@@ -1451,7 +1451,7 @@ public partial class FundoServiceTests
         DomainException exception = await Assert.ThrowsAsync<DomainException>(() =>
             _service.UpdateAsync(codigo, dto, CancellationToken.None));
 
-        Assert.Equal($"CodigoTipo '{dto.CodigoTipo}' does not exist.", exception.Message);
+        Assert.Equal($"Cnpj '{dto.Cnpj}' already exists.", exception.Message);
     }
 
     /// <summary>

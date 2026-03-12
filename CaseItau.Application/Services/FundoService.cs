@@ -91,16 +91,16 @@ public class FundoService(IFundoRepository repository, ITipoFundoCacheService ti
             return false;
         }
 
-        if (!await _tipoFundoCacheService.ExistsAsync(dto.CodigoTipo, cancellationToken))
-        {
-            _logger.LogWarning("CodigoTipo '{CodigoTipo}' does not exist.", dto.CodigoTipo);
-            throw new DomainException($"CodigoTipo '{dto.CodigoTipo}' does not exist.");
-        }
-
         if (cnpjTakenByOther)
         {
             _logger.LogWarning("Duplicated CNPJ '{Cnpj}' detected on update for codigo '{Codigo}'.", dto.Cnpj, codigo);
             throw new DomainException($"Cnpj '{dto.Cnpj}' already exists.");
+        }
+
+        if (!await _tipoFundoCacheService.ExistsAsync(dto.CodigoTipo, cancellationToken))
+        {
+            _logger.LogWarning("CodigoTipo '{CodigoTipo}' does not exist.", dto.CodigoTipo);
+            throw new DomainException($"CodigoTipo '{dto.CodigoTipo}' does not exist.");
         }
 
         fundo.Nome = dto.Nome;
