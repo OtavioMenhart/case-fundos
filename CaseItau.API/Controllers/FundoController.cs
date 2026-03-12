@@ -18,15 +18,16 @@ public class FundoController(IFundoService fundoService, ILogger<FundoController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Fetching all funds.");
+        _logger.LogInformation("Received request to fetch all funds.");
         var fundos = await _fundoService.GetAllAsync(cancellationToken);
 
         if (fundos == null || !fundos.Any())
         {
-            _logger.LogWarning("No funds found.");
+            _logger.LogWarning("No funds found. Returning not found.");
             return NotFound();
         }
 
+        _logger.LogInformation("All funds retrieved. Returning OK.");
         return Ok(fundos);
     }
 
@@ -37,15 +38,16 @@ public class FundoController(IFundoService fundoService, ILogger<FundoController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(string codigo, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Fetching fund with codigo '{Codigo}'.", codigo);
+        _logger.LogInformation("Received request to fetch fund with codigo '{Codigo}'.", codigo);
         var fundo = await _fundoService.GetByCodigoAsync(codigo, cancellationToken);
 
         if (fundo is null)
         {
-            _logger.LogWarning("Fund with codigo '{Codigo}' not found.", codigo);
+            _logger.LogWarning("Fund with codigo '{Codigo}' not found. Returning not found.", codigo);
             return NotFound();
         }
 
+        _logger.LogInformation("Fund with codigo '{Codigo}' found. Returning OK.", codigo);
         return Ok(fundo);
     }
 
@@ -57,9 +59,9 @@ public class FundoController(IFundoService fundoService, ILogger<FundoController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post([FromBody] CreateFundoDto dto, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Creating fund with codigo '{Codigo}'.", dto.Codigo);
+        _logger.LogInformation("Received request to create fund with codigo '{Codigo}'.", dto.Codigo);
         await _fundoService.CreateAsync(dto, cancellationToken);
-        _logger.LogInformation("Fund with codigo '{Codigo}' created successfully.", dto.Codigo);
+        _logger.LogInformation("Fund with codigo '{Codigo}' created. Returning Created.", dto.Codigo);
         return CreatedAtAction(nameof(Get), new { codigo = dto.Codigo }, dto);
     }
 
@@ -72,16 +74,16 @@ public class FundoController(IFundoService fundoService, ILogger<FundoController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Put(string codigo, [FromBody] UpdateFundoDto dto, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Updating fund with codigo '{Codigo}'.", codigo);
+        _logger.LogInformation("Received request to update fund with codigo '{Codigo}'.", codigo);
         var updated = await _fundoService.UpdateAsync(codigo, dto, cancellationToken);
 
         if (!updated)
         {
-            _logger.LogWarning("Fund with codigo '{Codigo}' not found for update.", codigo);
+            _logger.LogWarning("Fund with codigo '{Codigo}' not found for update. Returning not found.", codigo);
             return NotFound();
         }
 
-        _logger.LogInformation("Fund with codigo '{Codigo}' updated successfully.", codigo);
+        _logger.LogInformation("Fund with codigo '{Codigo}' updated. Returning OK.", codigo);
         return Ok();
     }
 
@@ -92,16 +94,16 @@ public class FundoController(IFundoService fundoService, ILogger<FundoController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(string codigo, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Deleting fund with codigo '{Codigo}'.", codigo);
+        _logger.LogInformation("Received request to delete fund with codigo '{Codigo}'.", codigo);
         var deleted = await _fundoService.DeleteAsync(codigo, cancellationToken);
 
         if (!deleted)
         {
-            _logger.LogWarning("Fund with codigo '{Codigo}' not found for deletion.", codigo);
+            _logger.LogWarning("Fund with codigo '{Codigo}' not found for deletion. Returning not found.", codigo);
             return NotFound();
         }
 
-        _logger.LogInformation("Fund with codigo '{Codigo}' deleted successfully.", codigo);
+        _logger.LogInformation("Fund '{Codigo}' deleted. Returning OK.", codigo);
         return Ok();
     }
 
@@ -113,16 +115,16 @@ public class FundoController(IFundoService fundoService, ILogger<FundoController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateFundAssets(string codigo, [FromBody] decimal valor, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Updating fund assets for codigo '{Codigo}' with valor {Valor}.", codigo, valor);
+        _logger.LogInformation("Received request to update fund assets for codigo '{Codigo}' with valor {Valor}.", codigo, valor);
         var updated = await _fundoService.UpdateFundAssetsAsync(codigo, valor, cancellationToken);
 
         if (!updated)
         {
-            _logger.LogWarning("Fund with codigo '{Codigo}' not found for assets update.", codigo);
+            _logger.LogWarning("Fund with codigo '{Codigo}' not found for assets update. Returning not found.", codigo);
             return NotFound();
         }
 
-        _logger.LogInformation("Fund assets for codigo '{Codigo}' updated successfully.", codigo);
+        _logger.LogInformation("Fund assets for codigo '{Codigo}' updated. Returning OK.", codigo);
         return Ok();
     }
 }

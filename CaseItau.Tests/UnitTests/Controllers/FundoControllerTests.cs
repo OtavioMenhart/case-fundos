@@ -53,7 +53,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Deleting fund with codigo '{codigo}'")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Received request to delete fund with codigo '{codigo}'")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -61,7 +61,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Fund with codigo '{codigo}' deleted successfully")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Fund '{codigo}' deleted. Returning OK.")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -91,7 +91,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Deleting fund with codigo '{codigo}'")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Received request to delete fund with codigo '{codigo}'")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -443,7 +443,7 @@ public class FundoControllerTests
             l => l.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Updating fund assets")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Received request to update fund assets")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -503,7 +503,7 @@ public class FundoControllerTests
             l => l.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("updated successfully")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("updated. Returning OK.")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -624,7 +624,7 @@ public class FundoControllerTests
             l => l.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Creating fund with codigo '{dto.Codigo}'")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Received request to create fund with codigo '{dto.Codigo}'")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -659,7 +659,7 @@ public class FundoControllerTests
             l => l.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Fund with codigo '{dto.Codigo}' created successfully")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Fund with codigo '{dto.Codigo}' created. Returning Created.")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -993,7 +993,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Fetching all funds")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Received request to fetch all funds")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -1027,7 +1027,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Fetching all funds")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Received request to fetch all funds")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -1076,7 +1076,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Fetching all funds")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Received request to fetch all funds")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -1122,7 +1122,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Fetching all funds")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Received request to fetch all funds")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -1170,7 +1170,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Fetching all funds")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Received request to fetch all funds")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -1238,7 +1238,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Fetching all funds")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Received request to fetch all funds")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -1324,7 +1324,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Fetching fund with codigo")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Received request to fetch fund with codigo")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -1584,7 +1584,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Updating fund with codigo '{codigo}'")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Received request to update fund with codigo '{codigo}'")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -1592,7 +1592,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Fund with codigo '{codigo}' updated successfully")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Fund with codigo '{codigo}' updated. Returning OK.")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -1629,7 +1629,7 @@ public class FundoControllerTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Updating fund with codigo '{codigo}'")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains($"Received request to update fund with codigo '{codigo}'")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
